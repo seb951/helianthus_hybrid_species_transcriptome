@@ -2,7 +2,7 @@
 args = commandArgs(TRUE)
 species = args[1] # can specify which species you want to align, directlty from the shell. Alternatively, you can do this from the "snp" function itself.
 cpu = as.numeric(args[2])
-cpu = args[3] #either snp OR snp_stats
+fun = args[3] #either snp OR snp_stats
 ################
 ###requirements #####
 ################
