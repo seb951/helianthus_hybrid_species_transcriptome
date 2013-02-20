@@ -71,7 +71,7 @@ for(p in 1:nrow(individuals))
 
 	}
 	system("rm idxstats_results")
-	write.table(total_idxstats,"results/total_idxstats.txt",row.names = F,col.names = T)
+	write.table(total_idxstats,"results/coverage_per_gene_individuals.txt",row.names = F,col.names = T)
 	write.table(total_seq,"results/number_total_aligned.txt",row.names = F)
 }
 
