@@ -122,7 +122,7 @@ system("rm mpileup/0_51* mpileup/header mpileup/wordcount1 log prog ") ### rm un
 
 
 #########################
-### more stats, who many bases with data###
+### more stats, how many bases with data###
 #########################
 
 snp_stats = function(wd = "/media/seb_1TB/transposon") {
@@ -130,7 +130,7 @@ snp_stats = function(wd = "/media/seb_1TB/transposon") {
 setwd(wd)
 species = c("deserticola","anomalus","paradoxus")
 
-results = matrix(c(1:12),nrow =3, ncol = 4)
+results = matrix(c(1:15),nrow =3, ncol = 5)
 
 for(s in 1:3)
 {
@@ -146,16 +146,25 @@ system("wc cns.fq >temp_char"); char = read.table("temp_char", stringsAsFactors 
 
 seq_length =  (char[3] - (char[2] + seq[2] + seq[3])) / 2 #total number of bp ### # char - length of name - length of quality identifier (2) - end of line character for whole file
 
+###within species polymorphic sites###
+counter = 0; snp_table = as.matrix(read.delim(paste("results/snp_table_",species[s],sep = ""), header = T, stringsAsFactors = F,sep = " "))
+	for(i in 1:nrow(snp_table))
+		{
+			temp = gsub("X","",snp_table[i,4:ncol(snp_table)])
+			if(length(unique(unlist(strsplit(temp, split = "")))) >1) counter = counter + 1
+		}
+
+
 results[s,1] = as.numeric(seq[1]) # 
 results[s,2] = as.numeric((seq_length - n)) 
 results[s,3] = as.numeric(snp)
 results[s,4] = as.numeric((snp / (seq_length - n) * 100))
+results[s,5] = counter # number of  polymorphic site in the hybrid species
+
 }
 write.table(results,"results/snp_stats",row.names = species, col.names = T)
 system("rm cns.fq temp*")
 }
-
-
 
 #########################
 ### RUN SNP CALLING FUNCTION ###
